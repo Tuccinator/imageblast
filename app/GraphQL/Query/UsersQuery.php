@@ -3,6 +3,7 @@ namespace App\GraphQL\Query;
 
 use GraphQL;
 use GraphQL\Type\Definition\Type;
+use GraphQL\Type\Definition\ResolveInfo;
 use Folklore\GraphQL\Support\Query;
 use App\User;
 use Auth;
@@ -21,17 +22,32 @@ class UsersQuery extends Query
     public function args()
     {
         return [
-            'id' => ['name' => 'id', 'type' => Type::string()],
-            'email' => ['name' => 'email', 'type' => Type::string()]
+            'id' => ['name' => 'id', 'type' => Type::int()],
+            'email' => ['name' => 'email', 'type' => Type::string()],
+            'groups' => ['name' => 'groups', 'type' => Type::listOf(GraphQL::type('Group'))]
         ];
     }
 
-    public function resolve($root, $args)
+    public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        $user = new User;
-        $user->id = 1;
-        $user->email = 'email@example.com';
+        $fields = $info->getFieldSelection($depth = 3);
 
-        return [$user];
+        $query = null;
+
+        if(isset($args['id'])) {
+            $query = User::where('id', $args['id']);
+        } else if(isset($args['email'])) {
+            $query = User::where('email', $args['email']);
+        } else {
+            return User::all();
+        }
+
+        foreach($fields as $field => $keys) {
+            if($field === 'groups') {
+                $query->with('groups');
+            }
+        }
+
+        return $query->get();
     }
 }

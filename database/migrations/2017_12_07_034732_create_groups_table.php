@@ -17,7 +17,7 @@ class CreateGroupsTable extends Migration
             $table->increments('id');
             $table->integer('creator_id');
             $table->string('name');
-            $table->bigText('description')->nullable();
+            $table->longText('description')->nullable();
             $table->boolean('public'); // Whether the group is a private group or public
             $table->string('invite_code')->nullable();
             $table->timestamps();

@@ -119,10 +119,11 @@ return [
     'schemas' => [
         'default' => [
             'query' => [
-                'users' => 'App\GraphQL\Query\UsersQuery'
+                'users' => 'App\GraphQL\Query\UsersQuery',
+                'groups' => 'App\GraphQL\Query\GroupsQuery'
             ],
             'mutation' => [
-
+                'createUser' => 'App\GraphQL\Mutation\CreateUserMutation'
             ]
         ]
     ],
@@ -144,7 +145,8 @@ return [
      * ]
      */
     'types' => [
-        'User' => 'App\GraphQL\Type\UserType'
+        'User' => 'App\GraphQL\Type\UserType',
+        'Group' => 'App\GraphQL\Type\GroupType'
     ],
 
     /*

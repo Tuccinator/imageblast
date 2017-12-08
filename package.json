@@ -13,12 +13,16 @@
     "axios": "^0.17",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.1",
+    "jasmine-core": "^2.8.0",
     "jquery": "^3.2",
+    "karma": "^1.7.1",
+    "karma-jasmine": "^1.1.1",
     "laravel-mix": "^1.0",
     "lodash": "^4.17.4",
     "vue": "^2.5.7"
   },
   "dependencies": {
+    "bulma": "^0.6.1",
     "vuex": "^3.0.1"
   }
 }

@@ -1,0 +1,23 @@
+@extends('layout')
+
+@section('title', 'Login')
+
+@section('hero')
+    <div class="hero is-primary is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="subtitle">Login</h1>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="padded-container">
+        <div class="columns">
+            <div class="column is-half is-offset-one-quarter">
+                <login-form></login-form>
+            </div>
+        </div>
+    </div>
+@endsection

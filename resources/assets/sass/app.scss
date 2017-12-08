@@ -5,5 +5,9 @@
 // Variables
 @import "variables";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+// Bulma
+@import '~bulma/bulma';
+
+.padded-container {
+    padding-top: 2rem;
+}
