@@ -9,6 +9,7 @@ const Vue = require('vue');
 const Vuex = require('vuex');
 const Login = require('./components/LoginComponent.vue');
 const Signup = require('./components/SignupComponent.vue');
+const AvatarForm = require('./components/AvatarFormComponent.vue');
 
 window.Vue = Vue;
 
@@ -27,6 +28,7 @@ const app = new Vue({
     // Components
     components: {
         'login-form': Login,
-        'signup-form': Signup
+        'signup-form': Signup,
+        'avatar-form': AvatarForm
     }
 });

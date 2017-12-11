@@ -2,7 +2,7 @@
 
 @section('title', 'Account')
 
-@section('content')
+@section('hero')
     <div class="hero is-primary is-small">
         <div class="hero-body">
             <div class="container">
@@ -10,4 +10,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('content')
+    <avatar-form current-avatar="{{ asset($user->avatar) }}"></avatar-form>
 @endsection

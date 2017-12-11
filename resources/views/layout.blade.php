@@ -24,21 +24,32 @@
                     <div id="navbarFull" class="navbar-menu">
                         <div class="navbar-end">
                             <div class="navbar-item">
-                                <div class="field is-grouped">
-                                    <p class="control">
-                                        <a href="/login" class="button is-dark">Login</a>
-                                    </p>
-                                    <p class="control">
-                                        <a href="/signup" class="button is-primary">Signup</a>
-                                    </p>
-                                </div>
+                                @if(!Auth::check())
+                                    <div class="field is-grouped">
+                                        <p class="control">
+                                            <a href="/login" class="button is-dark">Login</a>
+                                        </p>
+                                        <p class="control">
+                                            <a href="/signup" class="button is-primary">Signup</a>
+                                        </p>
+                                    </div>
+                                @else
+                                    <div class="field is-grouped">
+                                        <p class="control">
+                                            <a href="/account" class="button is-primary">Account</a>
+                                        </p>
+                                        <p class="control">
+                                            <a href="/logout" class="button is-dark">Logout</a>
+                                        </p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </nav>
             @yield('hero')
-            
+
             <div class="container">
                 @yield('content')
             </div>

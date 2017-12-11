@@ -48,6 +48,7 @@ class CreateUserMutation extends Mutation
         $user = new User;
         $user->username = $args['username'];
         $user->email = $args['email'];
+        $user->avatar = '/avatars/default-avatar.png';
         $user->password = password_hash($args['password'], PASSWORD_DEFAULT);
 
         if(!$user->save()) {

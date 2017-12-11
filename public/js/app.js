@@ -12897,6 +12897,7 @@ var Vue = __webpack_require__(7);
 var Vuex = __webpack_require__(1);
 var Login = __webpack_require__(27);
 var Signup = __webpack_require__(76);
+var AvatarForm = __webpack_require__(89);
 
 window.Vue = Vue;
 
@@ -12915,7 +12916,8 @@ var app = new Vue({
   // Components
   components: {
     'login-form': Login,
-    'signup-form': Signup
+    'signup-form': Signup,
+    'avatar-form': AvatarForm
   }
 });
 
@@ -15220,6 +15222,203 @@ module.exports = user;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 84 */,
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */,
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(10)
+/* script */
+var __vue_script__ = __webpack_require__(91)
+/* template */
+var __vue_template__ = __webpack_require__(90)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\AvatarFormComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ffedfdce", Component.options)
+  } else {
+    hotAPI.reload("data-v-ffedfdce", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "padded-container container avatar-form" }, [
+    _c("h1", { staticClass: "title is-5" }, [_vm._v("Upload Avatar")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "column is-one-fifth" }, [
+        _c("img", { attrs: { src: _vm.avatar } })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "column is-four-fifths" }, [
+        _c(
+          "div",
+          {
+            staticClass: "file is-boxed",
+            class: { "is-danger": _vm.avatarError }
+          },
+          [
+            _c("label", { staticClass: "file-label" }, [
+              _c("input", {
+                staticClass: "file-input",
+                attrs: { type: "file" },
+                on: { change: _vm.changeAvatar }
+              }),
+              _vm._v(" "),
+              _vm._m(0, false, false)
+            ])
+          ]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "file-cta" }, [
+      _c("span", { staticClass: "file-icon" }, [
+        _c("i", { staticClass: "fa fa-upload" })
+      ]),
+      _vm._v(" "),
+      _c("span", { staticClass: "file-label" }, [
+        _vm._v(
+          "\n                            Choose a file...\n                        "
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ffedfdce", module.exports)
+  }
+}
+
+/***/ }),
+/* 91 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var axios = __webpack_require__(17);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['currentAvatar'],
+
+    // using data instead of Vuex because of initial prop
+    data: function data() {
+        return {
+            avatar: this.currentAvatar,
+            avatarError: false
+        };
+    },
+
+    methods: {
+        changeAvatar: function changeAvatar(e) {
+            var _this = this;
+
+            this.avatarError = false;
+
+            var files = e.target.files || e.dataTransfer.files;
+            var file = files[0];
+
+            var formData = new FormData();
+            formData.append('avatar', file);
+
+            axios.post('/avatar', formData).then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    _this.avatarError = true;
+                    return;
+                }
+
+                // if response was unsuccessful without a specific error, automatically make password invalid
+                if (!result.success) {
+                    _this.avatarError = true;
+                    return;
+                }
+
+                _this.avatar = result.path;
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

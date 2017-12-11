@@ -16,6 +16,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
+            $table->integer('group_id')->nullable(); // only available if image_type is 1
             $table->string('name');
             $table->integer('likes');
             $table->integer('dislikes');

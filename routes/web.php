@@ -16,6 +16,9 @@ Route::get('/', function() {
 });
 
 Route::get('/signup', 'UserController@signup');
-Route::get('/login', 'UserController@login');
+Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginPost');
-Route::get('/logout', 'UserController@logout');
+Route::get('/logout', 'UserController@logout')->middleware('auth');
+
+Route::post('/avatar', 'UserController@uploadAvatar')->middleware('auth');
+Route::get('/account', 'UserController@account')->middleware('auth');

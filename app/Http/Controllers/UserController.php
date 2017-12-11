@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Validator;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -51,6 +53,42 @@ class UserController extends Controller
         }
 
         return json_encode(['success' => true]);
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'avatar' => 'required|image'
+        ]);
+
+        $avatar = $request->file('avatar');
+
+        $validator->after(function($validator) use($avatar) {
+            if(!is_null($avatar)) {
+                if(!$avatar->isValid()) {
+                    $validator->errors()->add('avatar', 'Avatar was unable to be uploaded.');
+                }
+            }
+        });
+
+        if($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        $path = $avatar->store('avatars', 'public');
+
+        $user = Auth::user();
+        $user->avatar = $path;
+        if(!$user->save()) {
+            return json_encode(['success' => false, 'message' => 'Could not save new avatar.']);
+        }
+
+        return json_encode(['success' => true, 'path' => $path]);
+    }
+
+    public function account()
+    {
+        return view('user.account', ['user' => Auth::user()]);
     }
 
     /**
