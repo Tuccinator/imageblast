@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Home - Imageblast</title>
-    </head>
-    <body>
-        Landing page
-    </body>
-</html>
+@extends('layout')
+
+@section('hero')
+    <div class="hero is-primary is-small">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="subtitle">Landing Page</h1>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+
+@endsection

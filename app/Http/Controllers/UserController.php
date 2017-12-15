@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Validator;
 use Illuminate\Validation\ValidationException;
+use Eventviva\ImageResize;
 
 class UserController extends Controller
 {
@@ -81,19 +82,27 @@ class UserController extends Controller
             throw new ValidationException($validator);
         }
 
-        $path = $avatar->store('avatars', 'public');
+        $path = $avatar->path();
+        $hash = $avatar->hashName();
+        $ext = $avatar->extension();
+
+        $savePath = public_path('avatars/' . $hash . '.' . $ext);
+
+        $image = new ImageResize($path);
+        $image->crop(100, 100);
+        $image->save($savePath);
 
         $user = Auth::user();
-        $user->avatar = $path;
+        $user->avatar = 'avatars/' . $hash . '.' . $ext;
         if(!$user->save()) {
             return json_encode(['success' => false, 'message' => 'Could not save new avatar.']);
         }
 
-        return json_encode(['success' => true, 'path' => $path]);
+        return json_encode(['success' => true, 'path' => 'avatars/' . $hash . '.' . $ext]);
     }
 
     /**
-     * Account page view
+    * Account page view
      */
     public function account()
     {
