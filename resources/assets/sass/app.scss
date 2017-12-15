@@ -22,6 +22,7 @@ body {
     padding: 1rem;
     background-color: white;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
 }
 
 .is-padded-top {
@@ -34,9 +35,30 @@ body {
 
 .image-preview {
     padding-bottom: 0.5rem;
-    
+
     img {
         display: table;
         margin: 0 auto;
+    }
+}
+
+.like-section {
+    font-size: 0.8rem;
+
+    span {
+        padding-left: 0.5rem;
+    }
+
+    i {
+        font-size: 1.2rem;
+        cursor: pointer;
+
+        &.like {
+            color: green;
+        }
+
+        &.dislike {
+            color: red;
+        }
     }
 }

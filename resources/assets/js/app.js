@@ -10,6 +10,7 @@ const Login = require('./components/LoginComponent.vue');
 const Signup = require('./components/SignupComponent.vue');
 const AvatarForm = require('./components/AvatarFormComponent.vue');
 const UploadForm = require('./components/UploadFormComponent.vue');
+const Feed = require('./components/FeedComponent.vue');
 
 window.Vue = Vue;
 
@@ -30,6 +31,7 @@ const app = new Vue({
         'login-form': Login,
         'signup-form': Signup,
         'avatar-form': AvatarForm,
-        'upload-form': UploadForm
+        'upload-form': UploadForm,
+        'feed': Feed
     }
 });

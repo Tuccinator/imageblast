@@ -41,6 +41,7 @@ class CreateUserMutation extends Mutation
 
     public function resolve($root, $args)
     {
+        // if user is already logged in, just return themselves
         if(Auth::check()) {
             return Auth::user();
         }
@@ -55,6 +56,7 @@ class CreateUserMutation extends Mutation
             return null;
         }
 
+        // login the user
         Auth::attempt(['email' => $user->email, 'password' => $args['password']]);
 
         return $user;

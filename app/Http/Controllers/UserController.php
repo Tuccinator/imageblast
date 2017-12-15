@@ -55,6 +55,12 @@ class UserController extends Controller
         return json_encode(['success' => true]);
     }
 
+    /**
+     * Upload an avatar. Easier through REST than mutation.
+     *
+     * @param $request \Illuminate\Http\Request
+     * @return json
+     */
     public function uploadAvatar(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -86,6 +92,9 @@ class UserController extends Controller
         return json_encode(['success' => true, 'path' => $path]);
     }
 
+    /**
+     * Account page view
+     */
     public function account()
     {
         return view('user.account', ['user' => Auth::user()]);

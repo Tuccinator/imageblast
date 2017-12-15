@@ -53,7 +53,7 @@ return [
     /*
      * Any middleware for the 'graphql' route group
      */
-    'middleware' => [],
+    'middleware' => ['web'],
 
     /**
      * Any middleware for a specific 'graphql' schema
@@ -120,7 +120,8 @@ return [
         'default' => [
             'query' => [
                 'users' => 'App\GraphQL\Query\UsersQuery',
-                'groups' => 'App\GraphQL\Query\GroupsQuery'
+                'groups' => 'App\GraphQL\Query\GroupsQuery',
+                'images' => 'App\GraphQl\Query\ImagesQuery',
             ],
             'mutation' => [
                 'createUser' => 'App\GraphQL\Mutation\CreateUserMutation',

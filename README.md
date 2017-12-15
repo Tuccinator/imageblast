@@ -3,14 +3,14 @@
 Simple image sharing website created with Laravel, Vue, Vuex, and GraphQL.
 
 - [x] User registration
-- [ ] Image uploading
+- [x] Image uploading
 - [ ] Group creation
 - [ ] Group roles
-- [ ] Image feed
+- [x] Image feed (currently on personal images)
 - [ ] Followers
 
-- [ ] Set privacy of image (public, followers only, private)
-- [ ] Like/dislike an image
+- [x] Set privacy of image (public, followers only, private)
+- [x] Like/dislike an image
 - [x] Add a new avatar
 - [ ] If avatar size is not proportional, crop it and shrink to max dimensions
 - [ ] Promote user to mod/admin in group by follower names

@@ -11,6 +11,14 @@ class Image extends Model
     const LIKE = 1;
     const DISLIKE = 2;
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    /**
+     * Reverse a previous like/dislike
+     */
     public function reverseLike($type)
     {
         if($type === self::LIKE) {
@@ -22,6 +30,9 @@ class Image extends Model
         $this->dislikes = $this->dislikes - 1;
     }
 
+    /**
+     * Add a new like/dislike
+     */
     public function addLike($type)
     {
         if($type === self::LIKE) {
@@ -33,16 +44,25 @@ class Image extends Model
         $this->dislikes = $this->dislikes + 1;
     }
 
+    /**
+     * Check if the image is public
+     */
     public function isPublic()
     {
         return $this->private === 0;
     }
 
-    public function isFriendsOnly()
+    /**
+     * Check if the image is followers only
+     */
+    public function isFollowersOnly()
     {
         return $this->private === 1;
     }
 
+    /**
+     * Check if image is completely private
+     */
     public function isPrivate()
     {
         return $this->private === 2;

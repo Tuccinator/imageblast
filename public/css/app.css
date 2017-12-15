@@ -11466,6 +11466,7 @@ body {
   background-color: white;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
           box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
 }
 
 .is-padded-top {
@@ -11483,5 +11484,26 @@ body {
 .image-preview img {
   display: table;
   margin: 0 auto;
+}
+
+.like-section {
+  font-size: 0.8rem;
+}
+
+.like-section span {
+  padding-left: 0.5rem;
+}
+
+.like-section i {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.like-section i.like {
+  color: green;
+}
+
+.like-section i.dislike {
+  color: red;
 }
 
