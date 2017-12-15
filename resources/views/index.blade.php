@@ -1,7 +1,5 @@
-@extends('layout')
-
-@section('title', 'Home')
-
-@section('content')
-    
-@endsection
+@if(!Auth::check())
+    @include('landing-page')
+@else
+    @include('feed')
+@endif

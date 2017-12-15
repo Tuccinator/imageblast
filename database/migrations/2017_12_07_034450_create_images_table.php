@@ -20,9 +20,9 @@ class CreateImagesTable extends Migration
             $table->string('name');
             $table->integer('likes');
             $table->integer('dislikes');
+            $table->string('path');
             $table->integer('image_type'); // 0: PERSONAL, 1: GROUP
             $table->integer('private')->default(0); // 0: NO, 1: FRIENDS, 2: PRIVATE
-            $table->string('ext');
             $table->timestamps();
         });
     }

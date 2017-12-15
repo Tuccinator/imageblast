@@ -22,3 +22,5 @@ Route::get('/logout', 'UserController@logout')->middleware('auth');
 
 Route::post('/avatar', 'UserController@uploadAvatar')->middleware('auth');
 Route::get('/account', 'UserController@account')->middleware('auth');
+
+Route::post('/upload', 'ImageController@upload')->middleware('auth');

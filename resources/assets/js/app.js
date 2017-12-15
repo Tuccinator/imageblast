@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -10,6 +9,7 @@ const Vuex = require('vuex');
 const Login = require('./components/LoginComponent.vue');
 const Signup = require('./components/SignupComponent.vue');
 const AvatarForm = require('./components/AvatarFormComponent.vue');
+const UploadForm = require('./components/UploadFormComponent.vue');
 
 window.Vue = Vue;
 
@@ -29,6 +29,7 @@ const app = new Vue({
     components: {
         'login-form': Login,
         'signup-form': Signup,
-        'avatar-form': AvatarForm
+        'avatar-form': AvatarForm,
+        'upload-form': UploadForm
     }
 });

@@ -62,6 +62,8 @@ class AvatarTest extends TestCase
      */
     public function testAvatarSuccessfullyUploaded()
     {
+        Storage::fake('public');
+        
         $avatarCount = count(Storage::disk('public')->files('avatars'));
 
         $response = $this->actingAs($this->user)->json('POST', '/avatar', [

@@ -123,7 +123,8 @@ return [
                 'groups' => 'App\GraphQL\Query\GroupsQuery'
             ],
             'mutation' => [
-                'createUser' => 'App\GraphQL\Mutation\CreateUserMutation'
+                'createUser' => 'App\GraphQL\Mutation\CreateUserMutation',
+                'likeImage' => 'App\GraphQL\Mutation\LikeImageMutation'
             ]
         ]
     ],
@@ -146,7 +147,8 @@ return [
      */
     'types' => [
         'User' => 'App\GraphQL\Type\UserType',
-        'Group' => 'App\GraphQL\Type\GroupType'
+        'Group' => 'App\GraphQL\Type\GroupType',
+        'Image' => 'App\GraphQL\Type\ImageType'
     ],
 
     /*

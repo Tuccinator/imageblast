@@ -57,7 +57,7 @@ export default {
                         return;
                     }
 
-                    // if response was unsuccessful without a specific error, automatically make password invalid
+                    // if response was unsuccessful without a specific error
                     if(!result.success) {
                         this.avatarError = true;
                         return;

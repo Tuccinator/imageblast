@@ -11455,3 +11455,33 @@ label.panel-block:hover {
   padding-top: 2rem;
 }
 
+body {
+  height: 100vh;
+  background-color: #efefef !important;
+}
+
+.feed-section {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.is-padded-top {
+  padding-top: 0.5rem;
+}
+
+.submit-button {
+  overflow: hidden;
+}
+
+.image-preview {
+  padding-bottom: 0.5rem;
+}
+
+.image-preview img {
+  display: table;
+  margin: 0 auto;
+}
+

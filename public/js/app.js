@@ -12886,7 +12886,7 @@ module.exports = __webpack_require__(83);
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
+"use strict";
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -12898,6 +12898,7 @@ var Vuex = __webpack_require__(1);
 var Login = __webpack_require__(27);
 var Signup = __webpack_require__(76);
 var AvatarForm = __webpack_require__(89);
+var UploadForm = __webpack_require__(93);
 
 window.Vue = Vue;
 
@@ -12917,7 +12918,8 @@ var app = new Vue({
   components: {
     'login-form': Login,
     'signup-form': Signup,
-    'avatar-form': AvatarForm
+    'avatar-form': AvatarForm,
+    'upload-form': UploadForm
   }
 });
 
@@ -15133,12 +15135,14 @@ if (false) {
 var Vue = __webpack_require__(7);
 var Vuex = __webpack_require__(1);
 var user = __webpack_require__(82);
+var upload = __webpack_require__(95);
 
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
     modules: {
-        user: user
+        user: user,
+        upload: upload
     }
 });
 
@@ -15408,13 +15412,313 @@ var axios = __webpack_require__(17);
                     return;
                 }
 
-                // if response was unsuccessful without a specific error, automatically make password invalid
+                // if response was unsuccessful without a specific error
                 if (!result.success) {
                     _this.avatarError = true;
                     return;
                 }
 
                 _this.avatar = result.path;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 92 */,
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(10)
+/* script */
+var __vue_script__ = __webpack_require__(96)
+/* template */
+var __vue_template__ = __webpack_require__(94)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\UploadFormComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-69359971", Component.options)
+  } else {
+    hotAPI.reload("data-v-69359971", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "upload-form" }, [
+    _c("h2", { staticClass: "title is-6" }, [_vm._v("Upload")]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "image-preview",
+        class: { "is-hidden": _vm.fileSource === null }
+      },
+      [_c("img", { attrs: { src: _vm.fileSource, alt: _vm.fileName } })]
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "file is-boxed is-fullwidth" }, [
+      _c("label", { staticClass: "file-label" }, [
+        _c("input", {
+          staticClass: "file-input",
+          attrs: { type: "file" },
+          on: { change: _vm.updateFile }
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "file-cta" }, [
+          _vm._m(0, false, false),
+          _vm._v(" "),
+          _c("span", { staticClass: "file-label has-text-centered" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.fileName) +
+                "\n                "
+            )
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "control is-padded-top" }, [
+      _c("label", { staticClass: "radio" }, [
+        _c("input", {
+          attrs: { type: "radio", name: "privacy", value: "0" },
+          domProps: { checked: _vm.selectedType === "0" },
+          on: { change: _vm.updateSelectedType }
+        }),
+        _vm._v("\n            Public\n        ")
+      ]),
+      _vm._v(" "),
+      _c("label", { staticClass: "radio" }, [
+        _c("input", {
+          attrs: { type: "radio", name: "privacy", value: "1" },
+          domProps: { checked: _vm.selectedType === "1" },
+          on: { change: _vm.updateSelectedType }
+        }),
+        _vm._v("\n            Followers Only\n        ")
+      ]),
+      _vm._v(" "),
+      _c("label", { staticClass: "radio" }, [
+        _c("input", {
+          attrs: { type: "radio", name: "privacy", value: "2" },
+          domProps: { checked: _vm.selectedType === "2" },
+          on: { change: _vm.updateSelectedType }
+        }),
+        _vm._v("\n            Private\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "submit-button" }, [
+      _c(
+        "button",
+        {
+          staticClass: "button is-link is-pulled-right",
+          on: { click: _vm.upload }
+        },
+        [_vm._v("Upload")]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "file-icon" }, [
+      _c("i", { staticClass: "fa fa-upload" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-69359971", module.exports)
+  }
+}
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports) {
+
+var upload = {
+    state: {
+        fileName: 'Upload an image',
+        fileSource: null,
+        fullFile: {},
+        selectedType: '0'
+    },
+    mutations: {
+        setSelectedType: function setSelectedType(state, type) {
+            state.selectedType = type;
+        },
+
+        setFileName: function setFileName(state, name) {
+            state.fileName = name;
+        },
+
+        setFileSource: function setFileSource(state, source) {
+            state.fileSource = source;
+        },
+
+        setFullFile: function setFullFile(state, file) {
+            state.fullFile = file;
+        }
+    }
+};
+
+module.exports = upload;
+
+/***/ }),
+/* 96 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var axios = __webpack_require__(17);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapState"])({
+        fileName: function fileName(state) {
+            return state.upload.fileName;
+        },
+        fileSource: function fileSource(state) {
+            return state.upload.fileSource;
+        },
+        selectedType: function selectedType(state) {
+            return state.upload.selectedType;
+        }
+    })),
+
+    methods: {
+        updateSelectedType: function updateSelectedType(e) {
+            this.$store.commit('setSelectedType', e.target.value);
+        },
+
+        updateFile: function updateFile(e) {
+            var _this = this;
+
+            var files = e.target.files || e.dataTransfer.files;
+            var file = files[0];
+            var reader = new FileReader();
+
+            reader.addEventListener('load', function () {
+                _this.$store.commit('setFileName', file.name);
+                _this.$store.commit('setFileSource', reader.result);
+                _this.$store.commit('setFullFile', file);
+            }, false);
+
+            reader.readAsDataURL(file);
+        },
+
+        upload: function upload() {
+            var _this2 = this;
+
+            var formData = new FormData();
+            formData.append('image', this.$store.state.upload.fullFile);
+            formData.append('privacy', this.$store.state.upload.selectedType);
+
+            axios.post('/upload', formData).then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    // display toast of error message
+                    return;
+                }
+
+                // if response was unsuccessful without a specific error
+                if (!result.success) {
+                    // display toast of error message
+                    return;
+                }
+
+                _this2.$store.commit('setFileName', 'Upload an image');
+                _this2.$store.commit('setFileSource', null);
+                _this2.$store.commit('setFullFile', {});
             });
         }
     }
