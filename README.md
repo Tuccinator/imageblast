@@ -4,7 +4,7 @@ Simple image sharing website created with Laravel, Vue, Vuex, and GraphQL.
 
 - [x] User registration
 - [x] Image uploading
-- [ ] Group creation
+- [x] Group creation
 - [ ] Group roles
 - [x] Image feed (currently on personal images)
 - [ ] Followers

@@ -22,6 +22,13 @@
                     </div>
 
                     <div id="navbarFull" class="navbar-menu">
+                        <div class="navbar-start">
+                            <div class="navbar-item">
+                                <a class="button is-dark" href="/groups">
+                                    Find Group
+                                </a>
+                            </div>
+                        </div>
                         <div class="navbar-end">
                             <div class="navbar-item">
                                 @if(!Auth::check())

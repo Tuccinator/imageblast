@@ -12900,6 +12900,7 @@ var Signup = __webpack_require__(76);
 var AvatarForm = __webpack_require__(89);
 var UploadForm = __webpack_require__(93);
 var Feed = __webpack_require__(97);
+var CreateGroupForm = __webpack_require__(103);
 
 window.Vue = Vue;
 
@@ -12921,7 +12922,8 @@ var app = new Vue({
         'signup-form': Signup,
         'avatar-form': AvatarForm,
         'upload-form': UploadForm,
-        'feed': Feed
+        'feed': Feed,
+        'create-group-form': CreateGroupForm
     }
 });
 
@@ -15139,6 +15141,7 @@ var Vuex = __webpack_require__(1);
 var user = __webpack_require__(82);
 var upload = __webpack_require__(95);
 var feed = __webpack_require__(100);
+var group = __webpack_require__(106);
 
 Vue.use(Vuex);
 
@@ -15146,7 +15149,8 @@ var store = new Vuex.Store({
     modules: {
         user: user,
         upload: upload,
-        feed: feed
+        feed: feed,
+        group: group
     }
 });
 
@@ -33053,6 +33057,263 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 103 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(10)
+/* script */
+var __vue_script__ = __webpack_require__(105)
+/* template */
+var __vue_template__ = __webpack_require__(104)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\CreateGroupFormComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-444f8026", Component.options)
+  } else {
+    hotAPI.reload("data-v-444f8026", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 104 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "create-group-form" }, [
+    _c("h2", { staticClass: "title is-6" }, [_vm._v("Create Group")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "input is-fullwidth",
+        class: { "is-danger": !_vm.nameValid },
+        attrs: { type: "text", placeholder: "Enter group name" },
+        domProps: { value: _vm.name },
+        on: { input: _vm.updateName }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "field" }, [
+      _c("label", { staticClass: "label" }, [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("textarea", {
+        staticClass: "textarea is-fullwidth",
+        attrs: { placeholder: "Enter group description (optional)" },
+        domProps: { value: _vm.description },
+        on: { input: _vm.updateDescription }
+      })
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "control" }, [
+      _c("label", { staticClass: "checkbox" }, [
+        _c("input", {
+          attrs: { type: "checkbox" },
+          domProps: { checked: _vm.privacy === true },
+          on: { change: _vm.updatePrivacy }
+        }),
+        _vm._v("\n            Private\n        ")
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "submit-button", staticStyle: { "margin-top": "0.5rem" } },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "button is-fullwidth is-info",
+            on: { click: _vm.createGroup }
+          },
+          [_vm._v("Create")]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-444f8026", module.exports)
+  }
+}
+
+/***/ }),
+/* 105 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(1);
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var axios = __webpack_require__(17);
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapState"])({
+        name: function name(state) {
+            return state.group.name;
+        },
+        nameValid: function nameValid(state) {
+            return state.group.nameValid;
+        },
+        description: function description(state) {
+            return state.group.description;
+        },
+        privacy: function privacy(state) {
+            return state.group.privacy;
+        }
+    })),
+
+    methods: {
+        updateName: function updateName(e) {
+            this.$store.commit('setGroupName', e.target.value);
+        },
+
+        updateDescription: function updateDescription(e) {
+            this.$store.commit('setGroupDescription', e.target.value);
+        },
+
+        updatePrivacy: function updatePrivacy(e) {
+            this.$store.commit('setGroupPrivacy', e.target.value);
+        },
+
+        createGroup: function createGroup() {
+            var _this = this;
+
+            if (this.name.length == 0) {
+                this.$store.commit('setGroupNameValid', false);
+                return;
+            }
+
+            var privacy = this.privacy ? 0 : 1;
+
+            axios.post('/graphql?query=mutation+groups{createGroup(name: "' + this.name + '", description: "' + this.description + '", privacy: ' + privacy + '){id}}').then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    // display errors in toast
+                    return;
+                }
+
+                if (result.data == null) {
+                    return;
+                }
+
+                _this.$store.commit('setGroupName', '');
+                _this.$store.commit('setGroupNameValid', true);
+                _this.$store.commit('setGroupDescription', '');
+
+                window.location.href = '/group/' + result.data.createGroup.id;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 106 */
+/***/ (function(module, exports) {
+
+var group = {
+    state: {
+        name: '',
+        nameValid: true,
+        description: '',
+        privacy: false
+    },
+    mutations: {
+        setGroupName: function setGroupName(state, name) {
+            state.name = name;
+
+            if (name.length === 0) {
+                state.nameValid = false;
+            } else {
+                state.nameValid = true;
+            }
+        },
+
+        setGroupDescription: function setGroupDescription(state, description) {
+            state.description = description;
+        },
+
+        setGroupPrivacy: function setGroupPrivacy(state, privacy) {
+            state.privacy = privacy;
+        },
+
+        setGroupNameValid: function setGroupNameValid(state, validity) {
+            state.nameValid = validity;
+        }
+    }
+};
+
+module.exports = group;
 
 /***/ })
 /******/ ]);

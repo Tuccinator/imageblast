@@ -11,6 +11,7 @@ const Signup = require('./components/SignupComponent.vue');
 const AvatarForm = require('./components/AvatarFormComponent.vue');
 const UploadForm = require('./components/UploadFormComponent.vue');
 const Feed = require('./components/FeedComponent.vue');
+const CreateGroupForm = require('./components/CreateGroupFormComponent.vue');
 
 window.Vue = Vue;
 
@@ -32,6 +33,7 @@ const app = new Vue({
         'signup-form': Signup,
         'avatar-form': AvatarForm,
         'upload-form': UploadForm,
-        'feed': Feed
+        'feed': Feed,
+        'create-group-form': CreateGroupForm
     }
 });

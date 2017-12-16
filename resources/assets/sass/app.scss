@@ -66,3 +66,14 @@ body {
         }
     }
 }
+
+.navbar-brand .navbar-item {
+    font-weight: bold;
+}
+
+.create-group-form {
+    margin-top: 0.5rem;
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
