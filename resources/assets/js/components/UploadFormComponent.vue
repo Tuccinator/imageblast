@@ -32,7 +32,7 @@
             </label>
         </div>
         <div class="submit-button">
-            <button class="button is-link is-pulled-right" @click="upload">Upload</button>
+            <button class="button is-link is-pulled-right is-warning" @click="upload">Upload</button>
         </div>
     </div>
 </template>

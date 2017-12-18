@@ -23,7 +23,8 @@ class GroupsQuery extends Query
     {
         return [
             'id' => ['name' => 'id', 'type' => Type::int()],
-            'user_id' => ['name' => 'user_id', 'type' => Type::int()]
+            'user_id' => ['name' => 'user_id', 'type' => Type::int()],
+            'order' => ['name' => 'order', 'type' => Type::string()]
         ];
     }
 
@@ -35,6 +36,16 @@ class GroupsQuery extends Query
 
         if(isset($args['user_id'])) {
             return GroupUser::join('groups', 'groups.id', '=', 'group_users.group_id')->with('members')->get();
+        }
+
+        if(isset($args['order'])) {
+            switch($args['order']) {
+                case 'desc':
+                    return Group::orderBy('id', 'desc')->with('members')->get();
+                case 'asc':
+                default:
+                    return Group::orderBy('id', 'asc')->with('members')->get();
+            }
         }
 
         return Group::with('members')->get();

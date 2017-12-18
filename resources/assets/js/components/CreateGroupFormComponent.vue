@@ -17,7 +17,7 @@
             </label>
         </div>
         <div class="submit-button" style="margin-top: 0.5rem;">
-            <button class="button is-fullwidth is-info" @click="createGroup">Create</button>
+            <button class="button is-fullwidth is-warning" @click="createGroup">Create</button>
         </div>
     </div>
 </template>

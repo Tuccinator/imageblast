@@ -12901,6 +12901,7 @@ var AvatarForm = __webpack_require__(89);
 var UploadForm = __webpack_require__(93);
 var Feed = __webpack_require__(97);
 var CreateGroupForm = __webpack_require__(103);
+var GroupsList = __webpack_require__(107);
 
 window.Vue = Vue;
 
@@ -12923,7 +12924,8 @@ var app = new Vue({
         'avatar-form': AvatarForm,
         'upload-form': UploadForm,
         'feed': Feed,
-        'create-group-form': CreateGroupForm
+        'create-group-form': CreateGroupForm,
+        'groups-list': GroupsList
     }
 });
 
@@ -13275,7 +13277,7 @@ var upperCaseFirst = __webpack_require__(78);
             return state.user.password;
         },
         loggingIn: function loggingIn(state) {
-            return state.user.logging;
+            return state.user.loggingIn;
         },
         emailValid: function emailValid(state) {
             return state.user.emailValid;
@@ -15556,7 +15558,7 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "button is-link is-pulled-right",
+          staticClass: "button is-link is-pulled-right is-warning",
           on: { click: _vm.upload }
         },
         [_vm._v("Upload")]
@@ -33158,7 +33160,7 @@ var render = function() {
         _c(
           "button",
           {
-            staticClass: "button is-fullwidth is-info",
+            staticClass: "button is-fullwidth is-warning",
             on: { click: _vm.createGroup }
           },
           [_vm._v("Create")]
@@ -33314,6 +33316,139 @@ var group = {
 };
 
 module.exports = group;
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(10)
+/* script */
+var __vue_script__ = __webpack_require__(108)
+/* template */
+var __vue_template__ = __webpack_require__(109)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\GroupListsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-26d97b20", Component.options)
+  } else {
+    hotAPI.reload("data-v-26d97b20", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 108 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+var axios = __webpack_require__(17);
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            groups: []
+        };
+    },
+
+    mounted: function mounted() {
+        var _this = this;
+
+        axios.get('/graphql?query=query+groups{ groups(order: "desc"){ id, name }}').then(function (response) {
+            var result = response.data;
+
+            _this.groups = result.data.groups;
+        });
+    }
+});
+
+/***/ }),
+/* 109 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "groups-list" },
+    _vm._l(_vm.groups, function(group) {
+      return _c("div", { staticClass: "group-row columns" }, [
+        _c("div", { staticClass: "group-name column is-one-third" }, [
+          _c("span", [_vm._v(_vm._s(group.name))])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "column is-one-third" }),
+        _vm._v(" "),
+        _c("div", { staticClass: "group-join column is-one-third" }, [
+          _c(
+            "a",
+            {
+              staticClass: "button is-small is-warning",
+              attrs: { href: "/groups/" + group.id }
+            },
+            [_vm._v("View Group")]
+          )
+        ])
+      ])
+    })
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-26d97b20", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

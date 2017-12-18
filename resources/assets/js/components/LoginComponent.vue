@@ -32,7 +32,7 @@ export default {
         ...mapState({
             email: state => state.user.email,
             password: state => state.user.password,
-            loggingIn: state => state.user.logging,
+            loggingIn: state => state.user.loggingIn,
             emailValid: state => state.user.emailValid,
             passwordValid: state => state.user.passwordValid
         })
