@@ -13,6 +13,7 @@ const UploadForm = require('./components/UploadFormComponent.vue');
 const Feed = require('./components/FeedComponent.vue');
 const CreateGroupForm = require('./components/CreateGroupFormComponent.vue');
 const GroupsList = require('./components/GroupListsComponent.vue');
+const GroupView = require('./components/GroupViewComponent.vue');
 
 window.Vue = Vue;
 
@@ -36,6 +37,7 @@ const app = new Vue({
         'upload-form': UploadForm,
         'feed': Feed,
         'create-group-form': CreateGroupForm,
-        'groups-list': GroupsList
+        'groups-list': GroupsList,
+        'group-view': GroupView
     }
 });

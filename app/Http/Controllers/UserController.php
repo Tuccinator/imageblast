@@ -86,19 +86,19 @@ class UserController extends Controller
         $hash = $avatar->hashName();
         $ext = $avatar->extension();
 
-        $savePath = public_path('avatars/' . $hash . '.' . $ext);
+        $savePath = public_path('avatars/' . $hash);
 
         $image = new ImageResize($path);
         $image->crop(100, 100);
         $image->save($savePath);
 
         $user = Auth::user();
-        $user->avatar = 'avatars/' . $hash . '.' . $ext;
+        $user->avatar = 'avatars/' . $hash;
         if(!$user->save()) {
             return json_encode(['success' => false, 'message' => 'Could not save new avatar.']);
         }
 
-        return json_encode(['success' => true, 'path' => 'avatars/' . $hash . '.' . $ext]);
+        return json_encode(['success' => true, 'path' => 'avatars/' . $hash]);
     }
 
     /**

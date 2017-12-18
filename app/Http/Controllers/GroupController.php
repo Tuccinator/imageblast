@@ -11,4 +11,9 @@ class GroupController extends Controller
 
         return view('group.groups', ['groups' => $groups]);
     }
+
+    public function view()
+    {
+        return view('group.view');
+    }
 }

@@ -88,3 +88,22 @@ html, body {
         text-align: right;
     }
 }
+
+.group-members {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.group-members-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        float: left;
+        width: 20%;
+    }
+}

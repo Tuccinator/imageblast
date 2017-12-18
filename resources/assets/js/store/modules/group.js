@@ -1,9 +1,11 @@
 const group = {
     state: {
+        id: null,
         name: '',
         nameValid: true,
         description: '',
-        privacy: false
+        privacy: false,
+        members: {}
     },
     mutations: {
         setGroupName: (state, name) => {
@@ -26,6 +28,24 @@ const group = {
 
         setGroupNameValid: (state, validity) => {
             state.nameValid = validity;
+        },
+
+        setGroupMembers: (state, members) => {
+            state.members = members;
+        },
+
+        setGroupId: (state, id) => {
+            state.id = id;
+        }
+    },
+
+    actions: {
+        setGroup: (context, group) => {
+            console.log(group);
+            context.commit('setGroupName', group.name);
+            context.commit('setGroupDescription', group.description);
+            context.commit('setGroupMembers', group.members);
+            context.commit('setGroupId', group.id);
         }
     }
 }
