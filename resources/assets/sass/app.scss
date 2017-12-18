@@ -12,13 +12,9 @@
     padding-top: 2rem;
 }
 
-html {
+html, body {
     height: 100%;
-}
-
-body {
-    height: 100%;
-    background-color: #efefef !important;
+    background-color: #efefef;
 }
 
 .feed-section {
@@ -76,4 +72,19 @@ body {
     padding: 1rem;
     background-color: white;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.group-row {
+    margin-top: 0.5rem;
+    background-color: white;
+    padding: 0.5rem;
+    border: 2px solid $primary;
+
+    .group-name {
+        text-transform: uppercase;
+    }
+
+    .group-join {
+        text-align: right;
+    }
 }

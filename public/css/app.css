@@ -11455,13 +11455,10 @@ label.panel-block:hover {
   padding-top: 2rem;
 }
 
-html {
-  height: 100%;
-}
-
+html,
 body {
   height: 100%;
-  background-color: #efefef !important;
+  background-color: #efefef;
 }
 
 .feed-section {
@@ -11521,5 +11518,20 @@ body {
   background-color: white;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
           box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.group-row {
+  margin-top: 0.5rem;
+  background-color: white;
+  padding: 0.5rem;
+  border: 2px solid #16a085;
+}
+
+.group-row .group-name {
+  text-transform: uppercase;
+}
+
+.group-row .group-join {
+  text-align: right;
 }
 
