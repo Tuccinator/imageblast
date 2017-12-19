@@ -159,4 +159,31 @@ class ImageTest extends TestCase
 
         $this->assertEquals(0, $data['likeImage']['likes']);
     }
+
+    /**
+     * Make sure the user cannot like a group image if they are not in the group
+     */
+    public function testUserCannotLikeNotJoinedGroupImage()
+    {
+        $imageId = factory(\App\Image::class)->create(['user_id' => 1, 'group_id' => 1])->id;
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+images{likeImage(id: {$imageId}, type: \"1\"){id, likes, dislikes}}");
+
+        $data = $response->json()['data'];
+
+        $this->assertEquals(null, $data['likeImage']);
+    }
+
+    public function testUserCanLikeJoinedGroupImage()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $groupUser = factory(\App\GroupUser::class)->create(['user_id' => self::$user->id, 'group_id' => $group->id]);
+        $image = factory(\App\Image::class)->create(['user_id' => 1, 'group_id' => $group->id]);
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+images{likeImage(id: {$image->id}, type: \"1\"){id, likes, dislikes}}");
+
+        $data = $response->json()['data'];
+
+        $this->assertEquals(1, $data['likeImage']['likes']);
+    }
 }

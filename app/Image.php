@@ -45,6 +45,14 @@ class Image extends Model
     }
 
     /**
+     * Check if the image belongs to a group
+     */
+    public function isGroup()
+    {
+        return $this->group_id !== null;
+    }
+
+    /**
      * Check if the image is public
      */
     public function isPublic()

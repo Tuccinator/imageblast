@@ -7,6 +7,7 @@ use Folklore\GraphQL\Support\Mutation;
 use App\User;
 use App\Image;
 use App\ImageLike;
+use App\GroupUser;
 use Auth;
 
 class LikeImageMutation extends Mutation
@@ -45,6 +46,15 @@ class LikeImageMutation extends Mutation
         // make sure the user is logged in or the image is public
         if(!Auth::check() || $image->isPrivate()) {
             return null;
+        }
+
+        // check for group access
+        if($image->isGroup()) {
+            $userInGroup = GroupUser::where('user_id', Auth::id())->where('group_id', $image->group_id)->first();
+
+            if(is_null($userInGroup)) {
+                return null;
+            }
         }
 
         // check if the user has already liked the image
