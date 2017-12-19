@@ -33259,7 +33259,7 @@ var axios = __webpack_require__(17);
 
             var privacy = this.privacy ? 0 : 1;
 
-            axios.post('/graphql?query=mutation+groups{createGroup(name: "' + this.name + '", description: "' + this.description + '", privacy: ' + privacy + '){id}}').then(function (response) {
+            axios.post('/graphql?query=mutation+groups{createGroup(name: "' + this.name + '", description: "' + this.description + '", public: ' + privacy + '){id}}').then(function (response) {
                 var result = response.data;
 
                 if (result.errors) {
@@ -33328,11 +33328,11 @@ var group = {
 
     actions: {
         setGroup: function setGroup(context, group) {
-            console.log(group);
             context.commit('setGroupName', group.name);
             context.commit('setGroupDescription', group.description);
             context.commit('setGroupMembers', group.members);
             context.commit('setGroupId', group.id);
+            context.commit('setGroupPrivacy', group['public']);
         }
     }
 };
@@ -33547,14 +33547,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 var axios = __webpack_require__(17);
 var parse = __webpack_require__(112);
 var GroupMembers = __webpack_require__(116);
+var GroupOptions = __webpack_require__(119);
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['groupId', 'auth'],
+
     computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapState"])({
         name: function name(state) {
             return state.group.name;
@@ -33567,31 +33574,46 @@ var GroupMembers = __webpack_require__(116);
         },
         members: function members(state) {
             return state.group.members;
+        },
+        privacy: function privacy(state) {
+            return state.group.privacy;
         }
     })),
 
-    mounted: function mounted() {
-        var _this = this;
+    methods: {
+        updatePrivacy: function updatePrivacy(e) {
+            var _this = this;
 
-        var url = new parse(window.location.href);
-        var urlBits = url.pathname.split('/');
-        var id = null;
+            var privacy = !this.privacy;
 
-        if (urlBits[urlBits.length - 1] === null) {
-            id = urlBits[urlBits.length - 2];
-        } else {
-            id = urlBits[urlBits.length - 1];
+            axios.post('/graphql?query=mutation+groups{groupPrivacy(id: ' + this.id + ', privacy: ' + (privacy ? 1 : 0) + '){id, public}}').then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    // display toast
+                    return;
+                }
+
+                _this.$store.commit('setGroupPrivacy', result.groupPrivacy.public);
+            });
         }
+    },
 
-        axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, members{id, username, avatar}}}').then(function (response) {
+    mounted: function mounted() {
+        var _this2 = this;
+
+        var id = this.groupId;
+
+        axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, public, members{id, username, avatar}}}').then(function (response) {
             var result = response.data;
 
-            _this.$store.dispatch('setGroup', result.data.groups[0]);
+            _this2.$store.dispatch('setGroup', result.data.groups[0]);
         });
     },
 
     components: {
-        'group-members': GroupMembers
+        'group-members': GroupMembers,
+        'group-options': GroupOptions
     }
 });
 
@@ -34157,6 +34179,24 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("div", { staticClass: "column is-one-quarter" }, [
+      _vm.auth
+        ? _c(
+            "div",
+            { staticClass: "group-options" },
+            [
+              _c("h2", { staticClass: "title is-6" }, [_vm._v("Options")]),
+              _vm._v(" "),
+              _c("group-options", {
+                attrs: {
+                  privacy: _vm.privacy,
+                  "update-privacy": _vm.updatePrivacy
+                }
+              })
+            ],
+            1
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "group-members" },
@@ -34270,6 +34310,110 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-b6ec77c8", module.exports)
+  }
+}
+
+/***/ }),
+/* 119 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(10)
+/* script */
+var __vue_script__ = __webpack_require__(120)
+/* template */
+var __vue_template__ = __webpack_require__(121)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\GroupOptionsComponent.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4706e6b7", Component.options)
+  } else {
+    hotAPI.reload("data-v-4706e6b7", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 120 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['privacy', 'updatePrivacy']
+});
+
+/***/ }),
+/* 121 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "group-options-all" }, [
+    _c("h3", { staticClass: "title is-7" }, [_vm._v("Privacy")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "control" }, [
+      _c("label", { staticClass: "checkbox" }, [
+        _c("input", {
+          attrs: { type: "checkbox", name: "privacy" },
+          domProps: { checked: _vm.privacy === 0 },
+          on: { change: _vm.updatePrivacy }
+        }),
+        _vm._v("\n            Private\n        ")
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4706e6b7", module.exports)
   }
 }
 

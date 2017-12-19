@@ -41,11 +41,11 @@ const group = {
 
     actions: {
         setGroup: (context, group) => {
-            console.log(group);
             context.commit('setGroupName', group.name);
             context.commit('setGroupDescription', group.description);
             context.commit('setGroupMembers', group.members);
             context.commit('setGroupId', group.id);
+            context.commit('setGroupPrivacy', group['public']);
         }
     }
 }

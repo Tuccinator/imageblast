@@ -23,6 +23,10 @@ class GroupType extends GraphQLType
                 'type' => Type::listOf(GraphQL::type('User')),
                 'description' => 'Members of group'
             ],
+            'public' => [
+                'type' => Type::int(),
+                'description' => 'Privacy of group'
+            ],
             'name' => [
                 'type' => Type::string(),
                 'description' => 'Group name'

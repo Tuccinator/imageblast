@@ -126,7 +126,8 @@ return [
             'mutation' => [
                 'createUser' => 'App\GraphQL\Mutation\CreateUserMutation',
                 'likeImage' => 'App\GraphQL\Mutation\LikeImageMutation',
-                'createGroup' => 'App\GraphQL\Mutation\CreateGroupMutation'
+                'createGroup' => 'App\GraphQL\Mutation\CreateGroupMutation',
+                'groupPrivacy' => 'App\GraphQL\Mutation\GroupPrivacyMutation'
             ]
         ]
     ],

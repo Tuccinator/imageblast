@@ -22,4 +22,9 @@ class GroupUser extends Model
     {
         return $this->group->members();
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 2;
+    }
 }
