@@ -15,7 +15,7 @@
 @section('content')
     <div class="columns">
         <div class="column is-three-quarters">
-            <groups-list></groups-list>
+            <groups-list :auth="{{ $auth ?: 0 }}" :auth-id="{{ $authId ?: 0 }}"></groups-list>
         </div>
         <div class="column is-one-quarter">
             <create-group-form></create-group-form>

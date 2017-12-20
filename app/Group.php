@@ -12,4 +12,9 @@ class Group extends Model
     {
         return $this->hasMany('App\GroupUser')->join('users', 'users.id', '=', 'group_users.user_id');
     }
+
+    public function isPublic()
+    {
+        return $this->public === 1;
+    }
 }

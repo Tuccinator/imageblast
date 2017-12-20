@@ -74,4 +74,49 @@ class GroupTest extends TestCase
         $this->assertArrayHasKey('public', $result['data']['groupPrivacy']);
         $this->assertEquals(0, $result['data']['groupPrivacy']['public']);
     }
+
+    public function testUserIsLoggedInToJoinGroup()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+
+        $response = $this->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
+
+        $result = $response->json();
+
+        $this->assertEquals(null, $result['data']['joinGroup']);
+    }
+
+    public function testUserHasToProvideValidGroupId()
+    {
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: 500000){id, members{id}}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('id', $result['errors'][0]['validation']);
+    }
+
+    public function testUserCanSuccessfullyJoinGroup()
+    {
+        $userId = self::$secondUser->id;
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+
+        $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
+
+        $result = $response->json();
+
+        $this->assertCount(1, $result['data']['joinGroup']['members']);
+    }
+
+    public function testUserWillLeaveGroupWhenTryingToJoin()
+    {
+        $userId = self::$secondUser->id;
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => $userId]);
+
+        $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
+
+        $result = $response->json();
+
+        $this->assertCount(0, $result['data']['joinGroup']['members']);
+    }
 }

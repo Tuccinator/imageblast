@@ -9,9 +9,7 @@ class GroupController extends Controller
 {
     public function groups()
     {
-        $groups = Group::orderBy('id', 'desc')->get();
-
-        return view('group.groups', ['groups' => $groups]);
+        return view('group.groups', ['auth' => Auth::check(), 'authId' => Auth::id()]);
     }
 
     public function view($id)
