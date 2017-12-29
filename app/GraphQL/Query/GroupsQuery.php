@@ -41,10 +41,10 @@ class GroupsQuery extends Query
         if(isset($args['order'])) {
             switch($args['order']) {
                 case 'desc':
-                    return Group::orderBy('id', 'desc')->with('members')->get();
+                    return Group::orderBy('id', 'desc')->where('public', 1)->with('members')->get();
                 case 'asc':
                 default:
-                    return Group::orderBy('id', 'asc')->with('members')->get();
+                    return Group::orderBy('id', 'asc')->where('public', 1)->with('members')->get();
             }
         }
 

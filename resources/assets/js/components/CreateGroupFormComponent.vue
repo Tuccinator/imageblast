@@ -58,7 +58,7 @@ export default {
 
             const privacy = this.privacy ? 0 : 1;
 
-            axios.post(`/graphql?query=mutation+groups{createGroup(name: "${this.name}", description: "${this.description}", public: ${privacy}){id}}`)
+            axios.post(`/graphql?query=mutation+groups{createGroup(name: "${this.name}", description: "${this.description}", privacy: ${privacy}){id}}`)
                 .then(response => {
                     const result = response.data;
 
