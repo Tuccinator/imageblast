@@ -58,6 +58,11 @@ class JoinGroupMutation extends Mutation
 
         // if the user is in the group, remove them from it
         if(!is_null($groupAttendance)) {
+
+            // user cannot leave group if they are creator
+            if($group->creator_id === Auth::id()) {
+                return null;
+            }
             $groupAttendance->delete();
 
             return Group::where('id', $group->id)->with('members')->first();

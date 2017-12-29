@@ -119,4 +119,16 @@ class GroupTest extends TestCase
 
         $this->assertCount(0, $result['data']['joinGroup']['members']);
     }
+
+    public function testUserUnableToLeaveGroupIfCreator()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id]);
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
+
+        $result = $response->json();
+
+        $this->assertEquals(null, $result['data']['joinGroup']);
+    }
 }
