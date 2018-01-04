@@ -6,11 +6,15 @@
                 Invite-Only
             </label>
         </div>
+        <div class="field" v-if="privacy === 0">
+            <input type="text" class="input" :value="inviteCode" @input="updateInviteCode" @keyup.enter="changeInviteCode" placeholder="Enter invite code..."/>
+        </div>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['privacy', 'updatePrivacy']
+    props: ['privacy', 'updatePrivacy', 'inviteCode', 'updateInviteCode', 'changeInviteCode'],
+
 };
 </script>

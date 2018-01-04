@@ -34,6 +34,10 @@ class GroupType extends GraphQLType
             'description' => [
                 'type' => Type::string(),
                 'description' => 'Group description'
+            ],
+            'invite_code' => [
+                'type' => Type::string(),
+                'description' => 'Group invite code (if private)'
             ]
         ];
     }

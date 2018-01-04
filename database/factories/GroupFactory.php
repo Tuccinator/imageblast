@@ -7,7 +7,7 @@ $factory->define(\App\Group::class, function (Faker $faker) {
         'creator_id' => null,
         'name' => $faker->sentence,
         'description' => null,
-        'public' => 1,
+        'public' => 0,
         'invite_code' => null
     ];
 });

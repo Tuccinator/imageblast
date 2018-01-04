@@ -5,7 +5,8 @@ const group = {
         nameValid: true,
         description: '',
         privacy: false,
-        members: {}
+        members: {},
+        mainInviteCode: ''
     },
     mutations: {
         setGroupName: (state, name) => {
@@ -36,6 +37,10 @@ const group = {
 
         setGroupId: (state, id) => {
             state.id = id;
+        },
+
+        setGroupInviteCode: (state, code) => {
+            state.mainInviteCode = code;
         }
     },
 
@@ -46,6 +51,7 @@ const group = {
             context.commit('setGroupMembers', group.members);
             context.commit('setGroupId', group.id);
             context.commit('setGroupPrivacy', group['public']);
+            context.commit('setGroupInviteCode', group.invite_code);
         }
     }
 }

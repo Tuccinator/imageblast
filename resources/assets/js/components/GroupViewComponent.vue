@@ -9,7 +9,7 @@
         <div class="column is-one-quarter">
             <div class="group-options" v-if="auth">
                 <h2 class="title is-6">Options</h2>
-                <group-options :privacy="privacy" :update-privacy="updatePrivacy"></group-options>
+                <group-options :privacy="privacy" :update-privacy="updatePrivacy" :invite-code="inviteCode" :update-invite-code="updateInviteCode" :change-invite-code="changeInviteCode"></group-options>
             </div>
             <div class="group-members">
                 <h2 class="title is-6">Members</h2>
@@ -36,7 +36,8 @@ export default {
             description: state => state.group.description,
             id: state => state.group.id,
             members: state => state.group.members,
-            privacy: state => state.group.privacy
+            privacy: state => state.group.privacy,
+            inviteCode: state => state.group.mainInviteCode
         })
     },
 
@@ -53,7 +54,25 @@ export default {
                         return;
                     }
 
-                    this.$store.commit('setGroupPrivacy', result.groupPrivacy.public);
+                    this.$store.commit('setGroupPrivacy', result.data.groupPrivacy.public);
+                })
+        },
+
+        updateInviteCode: function(e) {
+            this.$store.commit('setGroupInviteCode', e.target.value);
+        },
+
+        changeInviteCode: function() {
+            axios.post(`/graphql?query=mutation+groups{ changeGroupCode(id: ${this.id}, code: "${this.inviteCode}"){id, invite_code}}`)
+                .then(response => {
+                    const result = response.data;
+
+                    if(result.errors) {
+                        //display toast
+                        return;
+                    }
+
+                    // display successful toast
                 })
         }
     },
@@ -61,7 +80,7 @@ export default {
     mounted: function() {
         const id = this.groupId;
 
-        axios.get(`/graphql?query=query+groupAndMembers{ groups(id: ${parseInt(id)}){id, name, description, public, members{id, username, avatar}}}`)
+        axios.get(`/graphql?query=query+groupAndMembers{ groups(id: ${parseInt(id)}){id, name, description, public, invite_code, members{id, username, avatar}}}`)
             .then(response => {
                 const result = response.data;
 

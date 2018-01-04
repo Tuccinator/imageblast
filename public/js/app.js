@@ -33419,6 +33419,9 @@ var GroupOptions = __webpack_require__(106);
         },
         privacy: function privacy(state) {
             return state.group.privacy;
+        },
+        inviteCode: function inviteCode(state) {
+            return state.group.mainInviteCode;
         }
     })),
 
@@ -33436,7 +33439,24 @@ var GroupOptions = __webpack_require__(106);
                     return;
                 }
 
-                _this.$store.commit('setGroupPrivacy', result.groupPrivacy.public);
+                _this.$store.commit('setGroupPrivacy', result.data.groupPrivacy.public);
+            });
+        },
+
+        updateInviteCode: function updateInviteCode(e) {
+            this.$store.commit('setGroupInviteCode', e.target.value);
+        },
+
+        changeInviteCode: function changeInviteCode() {
+            axios.post('/graphql?query=mutation+groups{ changeGroupCode(id: ' + this.id + ', code: "' + this.inviteCode + '"){id, invite_code}}').then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    //display toast
+                    return;
+                }
+
+                // display successful toast
             });
         }
     },
@@ -33446,7 +33466,7 @@ var GroupOptions = __webpack_require__(106);
 
         var id = this.groupId;
 
-        axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, public, members{id, username, avatar}}}').then(function (response) {
+        axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, public, invite_code, members{id, username, avatar}}}').then(function (response) {
             var result = response.data;
 
             _this2.$store.dispatch('setGroup', result.data.groups[0]);
@@ -34161,9 +34181,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['privacy', 'updatePrivacy']
+    props: ['privacy', 'updatePrivacy', 'inviteCode', 'updateInviteCode', 'changeInviteCode']
+
 });
 
 /***/ }),
@@ -34184,7 +34208,29 @@ var render = function() {
         }),
         _vm._v("\n            Invite-Only\n        ")
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.privacy === 0
+      ? _c("div", { staticClass: "field" }, [
+          _c("input", {
+            staticClass: "input",
+            attrs: { type: "text", placeholder: "Enter invite code..." },
+            domProps: { value: _vm.inviteCode },
+            on: {
+              input: _vm.updateInviteCode,
+              keyup: function($event) {
+                if (
+                  !("button" in $event) &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key)
+                ) {
+                  return null
+                }
+                _vm.changeInviteCode($event)
+              }
+            }
+          })
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -34225,7 +34271,10 @@ var render = function() {
               _c("group-options", {
                 attrs: {
                   privacy: _vm.privacy,
-                  "update-privacy": _vm.updatePrivacy
+                  "update-privacy": _vm.updatePrivacy,
+                  "invite-code": _vm.inviteCode,
+                  "update-invite-code": _vm.updateInviteCode,
+                  "change-invite-code": _vm.changeInviteCode
                 }
               })
             ],
@@ -34427,7 +34476,8 @@ var group = {
         nameValid: true,
         description: '',
         privacy: false,
-        members: {}
+        members: {},
+        mainInviteCode: ''
     },
     mutations: {
         setGroupName: function setGroupName(state, name) {
@@ -34458,6 +34508,10 @@ var group = {
 
         setGroupId: function setGroupId(state, id) {
             state.id = id;
+        },
+
+        setGroupInviteCode: function setGroupInviteCode(state, code) {
+            state.mainInviteCode = code;
         }
     },
 
@@ -34468,6 +34522,7 @@ var group = {
             context.commit('setGroupMembers', group.members);
             context.commit('setGroupId', group.id);
             context.commit('setGroupPrivacy', group['public']);
+            context.commit('setGroupInviteCode', group.invite_code);
         }
     }
 };

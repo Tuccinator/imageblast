@@ -98,7 +98,7 @@ class GroupTest extends TestCase
     public function testUserCanSuccessfullyJoinGroup()
     {
         $userId = self::$secondUser->id;
-        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 1]);
 
         $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
 
@@ -110,7 +110,7 @@ class GroupTest extends TestCase
     public function testUserWillLeaveGroupWhenTryingToJoin()
     {
         $userId = self::$secondUser->id;
-        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 1]);
         $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => $userId]);
 
         $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id, members{id}}}");
@@ -139,24 +139,39 @@ class GroupTest extends TestCase
 
         $inviteCode = '12easd2e12easd2e12easd2e12easd2e1';
 
-        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: {$inviteCode}){id, code}}");
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: \"{$inviteCode}\"){id, invite_code}}");
 
         $result = $response->json();
 
         $this->assertArrayHasKey('code', $result['errors'][0]['validation']);
     }
 
-    public function testAdminCanChangeInviteCode()
+    public function testAdminCannotAddDuplicateInviteCode()
     {
+        $inviteCode = '12easd2e';
+
+        $group1 = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'invite_code' => $inviteCode, 'public' => 0]);
         $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
         $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
 
-        $inviteCode = '12easd2e';
-
-        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: {$inviteCode}){id, code}}");
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: \"{$inviteCode}\"){id, invite_code}}");
 
         $result = $response->json();
 
-        $this->assertArrayHasKey('code', $result['data']['changeGroupCode']);
+        $this->assertEquals(null, $result['data']['changeGroupCode']);
+    }
+
+    public function testAdminCanChangeInviteCode()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 0]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $inviteCode = str_random(16);
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: \"{$inviteCode}\"){id, invite_code}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('invite_code', $result['data']['changeGroupCode']);
     }
 }
