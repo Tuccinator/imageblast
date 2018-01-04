@@ -63,6 +63,7 @@ class JoinGroupMutation extends Mutation
             if($group->creator_id === Auth::id()) {
                 return null;
             }
+            
             $groupAttendance->delete();
 
             return Group::where('id', $group->id)->with('members')->first();

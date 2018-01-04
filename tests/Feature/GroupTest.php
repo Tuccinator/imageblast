@@ -131,4 +131,32 @@ class GroupTest extends TestCase
 
         $this->assertEquals(null, $result['data']['joinGroup']);
     }
+
+    public function testAdminCannotChangeInviteCodeWithMoreThan32Chars()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $inviteCode = '12easd2e12easd2e12easd2e12easd2e1';
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: {$inviteCode}){id, code}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('code', $result['errors'][0]['validation']);
+    }
+
+    public function testAdminCanChangeInviteCode()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $inviteCode = '12easd2e';
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ changeGroupCode(id: {$group->id}, code: {$inviteCode}){id, code}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('code', $result['data']['changeGroupCode']);
+    }
 }
