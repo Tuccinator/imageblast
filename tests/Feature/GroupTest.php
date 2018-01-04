@@ -174,4 +174,43 @@ class GroupTest extends TestCase
 
         $this->assertArrayHasKey('invite_code', $result['data']['changeGroupCode']);
     }
+
+    public function testUserMustProvideInviteCodeToJoinPrivateGroup()
+    {
+        $inviteCode = str_random(16);
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 0, 'invite_code' => $inviteCode]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}){id}}");
+
+        $result = $response->json();
+
+        $this->assertEquals(null, $result['data']['joinGroup']);
+    }
+
+    public function testUserMustProvideValidInviteCodeToJoinPrivateGroup()
+    {
+        $inviteCode = str_random(16);
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 0, 'invite_code' => $inviteCode]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}, code: \"invite123\"){id}}");
+
+        $result = $response->json();
+
+        $this->assertEquals(null, $result['data']['joinGroup']);
+    }
+
+    public function testUserCanJoinPrivateGroupWithInviteCode()
+    {
+        $inviteCode = str_random(16);
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 0, 'invite_code' => $inviteCode]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $response = $this->actingAs(self::$secondUser)->json('POST', "/graphql?query=mutation+groups{ joinGroup(id: {$group->id}, code: \"{$inviteCode}\"){id}}");
+
+        $result = $response->json();
+
+        $this->assertEquals($group->id, $result['data']['joinGroup']['id']);
+    }
 }
