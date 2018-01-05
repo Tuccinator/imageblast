@@ -27,6 +27,11 @@ class JoinGroupMutation extends Mutation
                 'type' => Type::int(),
                 'description' => 'ID of group',
                 'rules' => ['required', 'exists:groups,id']
+            ],
+
+            'code' => [
+                'type' => Type::string(),
+                'description' => 'Invite code for the group'
             ]
         ];
     }
@@ -48,11 +53,6 @@ class JoinGroupMutation extends Mutation
             return null;
         }
 
-        // make sure the group is public
-        if(!$group->isPublic()) {
-            return null;
-        }
-
         // check if the user is already in the group
         $groupAttendance = GroupUser::where('group_id', $group->id)->where('user_id', Auth::id())->first();
 
@@ -63,10 +63,23 @@ class JoinGroupMutation extends Mutation
             if($group->creator_id === Auth::id()) {
                 return null;
             }
-            
+
             $groupAttendance->delete();
 
             return Group::where('id', $group->id)->with('members')->first();
+        }
+
+        // check if the group is private
+        //
+        // if it is private, make sure the user has provided the invite code
+        if(!$group->isPublic()) {
+            if(empty($args['code'])) {
+                return null;
+            }
+
+            if($args['code'] !== $group->invite_code) {
+                return null;
+            }
         }
 
         // join the group

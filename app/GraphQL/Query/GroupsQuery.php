@@ -31,18 +31,16 @@ class GroupsQuery extends Query
 
     public function resolve($root, $args)
     {
-        $userId = Auth::check();
-        $group = Group::find($args['id']);
-
-        if(!$group->public) {
-            $groupAttendance = GroupUser::where('user_id', Auth::id())->where('group_id', $group->id)->first();
-
-            if(is_null($groupAttendance)) {
-                return null;
-            }
-        }
-
         if(isset($args['id'])) {
+            $group = Group::find($args['id']);
+
+            if(!$group->public) {
+                $groupAttendance = GroupUser::where('user_id', Auth::id())->where('group_id', $group->id)->first();
+
+                if(is_null($groupAttendance)) {
+                    return null;
+                }
+            }
             return Group::where('id', $args['id'])->with('members')->get();
         }
 
@@ -53,10 +51,10 @@ class GroupsQuery extends Query
         if(isset($args['order'])) {
             switch($args['order']) {
                 case 'desc':
-                    return Group::orderBy('id', 'desc')->where('public', 1)->with('members')->get();
+                    return Group::orderBy('id', 'desc')->with('members')->get();
                 case 'asc':
                 default:
-                    return Group::orderBy('id', 'asc')->where('public', 1)->with('members')->get();
+                    return Group::orderBy('id', 'asc')->with('members')->get();
             }
         }
 
