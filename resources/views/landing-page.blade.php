@@ -1,5 +1,7 @@
 @extends('layout')
 
+@section('title', 'Home')
+
 @section('hero')
     <div class="hero is-primary is-small">
         <div class="hero-body">

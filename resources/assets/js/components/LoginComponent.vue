@@ -9,7 +9,7 @@
         <div class="field">
             <label class="label">Password</label>
             <div class="control is-medium">
-                <input type="password" class="input is-medium" v-bind:class="{'is-danger': !passwordValid}" :value="password" @keyup="updatePassword" @keyup.enter="login" placeholder="Enter password" />
+                <input type="password" class="input is-medium" v-bind:class="{'is-danger': !passwordValid}" :value="password" @input="updatePassword" @keyup.enter="login" placeholder="Enter password" />
             </div>
         </div>
         <div class="field">

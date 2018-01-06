@@ -7,7 +7,7 @@
             <div class="group-join column is-two-thirds">
                 <button class="button is-small is-info" @click="joinGroup(group.id, group.public)" v-if="auth && !isUserOfGroup(group.id)">Join Group</button>
                 <button class="button is-small is-danger" @click="joinGroup(group.id)" v-else-if="auth">Leave Group</button>
-                <a :href="'/groups/' + group.id" class="button is-small is-warning" v-if="group.public">View Group</a>
+                <a :href="'/groups/' + group.id" class="button is-small is-warning" v-if="group.public || isUserOfGroup(group.id)">View Group</a>
             </div>
         </div>
         <div class="modal" :class="{'is-active': this.codeModalOpen}">
