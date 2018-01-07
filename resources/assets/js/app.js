@@ -14,6 +14,7 @@ const Feed = require('./components/FeedComponent.vue');
 const CreateGroupForm = require('./components/CreateGroupFormComponent.vue');
 const GroupsList = require('./components/GroupListsComponent.vue');
 const GroupView = require('./components/GroupViewComponent.vue');
+const GroupOptions = require('./components/GroupOptionsComponent.vue');
 
 window.Vue = Vue;
 
@@ -38,6 +39,7 @@ const app = new Vue({
         'feed': Feed,
         'create-group-form': CreateGroupForm,
         'groups-list': GroupsList,
-        'group-view': GroupView
+        'group-view': GroupView,
+        'group-options': GroupOptions
     }
 });

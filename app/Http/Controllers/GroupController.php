@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Group;
 use App\GroupUser;
 use Auth;
@@ -14,9 +15,9 @@ class GroupController extends Controller
 
     public function view($id)
     {
-        $group = Group::find($id);
-
-        if(is_null($group)) {
+        try {
+            $group = Group::find($id);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return redirect('/groups');
         }
 
@@ -29,5 +30,33 @@ class GroupController extends Controller
         }
 
         return view('group.view', ['group' => $group, 'isAllowed' => $auth]);
+    }
+
+    public function options(Request $request, $id)
+    {
+        try {
+            $group = Group::find($id);
+        } catch(\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect('/groups');
+        }
+
+        $attendance = $this->checkAttendance($group->id, Auth::id());
+
+        if(!$attendance || !$attendance->isAdmin()) {
+            return redirect('/groups');
+        }
+
+        return view('group.options', ['group' => $group]);
+    }
+
+    public function checkAttendance($groupId, $userId)
+    {
+        $groupAttendance = GroupUser::where('user_id', $userId)->where('group_id', $groupId)->first();
+
+        if(is_null($groupAttendance)) {
+            return false;
+        }
+
+        return $groupAttendance;
     }
 }

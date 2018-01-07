@@ -27,3 +27,4 @@ Route::post('/upload', 'ImageController@upload')->middleware('auth');
 
 Route::get('/groups', 'GroupController@groups');
 Route::get('/groups/{id}', 'GroupController@view');
+Route::get('/groups/{id}/options', 'GroupController@options')->middleware('auth');

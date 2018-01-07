@@ -30017,6 +30017,7 @@ var Feed = __webpack_require__(88);
 var CreateGroupForm = __webpack_require__(91);
 var GroupsList = __webpack_require__(94);
 var GroupView = __webpack_require__(98);
+var GroupOptions = __webpack_require__(107);
 
 window.Vue = Vue;
 
@@ -30041,7 +30042,8 @@ var app = new Vue({
         'feed': Feed,
         'create-group-form': CreateGroupForm,
         'groups-list': GroupsList,
-        'group-view': GroupView
+        'group-view': GroupView,
+        'group-options': GroupOptions
     }
 });
 
@@ -33420,7 +33422,7 @@ var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(99)
 /* template */
-var __vue_template__ = __webpack_require__(109)
+var __vue_template__ = __webpack_require__(106)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -33489,12 +33491,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 var axios = __webpack_require__(3);
 var parse = __webpack_require__(100);
 var GroupMembers = __webpack_require__(103);
-var GroupOptions = __webpack_require__(106);
 
 
 
@@ -33508,71 +33508,25 @@ var GroupOptions = __webpack_require__(106);
         description: function description(state) {
             return state.group.description;
         },
-        id: function id(state) {
-            return state.group.id;
-        },
         members: function members(state) {
             return state.group.members;
-        },
-        privacy: function privacy(state) {
-            return state.group.privacy;
-        },
-        inviteCode: function inviteCode(state) {
-            return state.group.mainInviteCode;
         }
     })),
 
-    methods: {
-        updatePrivacy: function updatePrivacy(e) {
-            var _this = this;
-
-            var privacy = !this.privacy;
-
-            axios.post('/graphql?query=mutation+groups{groupPrivacy(id: ' + this.id + ', privacy: ' + (privacy ? 1 : 0) + '){id, public}}').then(function (response) {
-                var result = response.data;
-
-                if (result.errors) {
-                    // display toast
-                    return;
-                }
-
-                _this.$store.commit('setGroupPrivacy', result.data.groupPrivacy.public);
-            });
-        },
-
-        updateInviteCode: function updateInviteCode(e) {
-            this.$store.commit('setGroupInviteCode', e.target.value);
-        },
-
-        changeInviteCode: function changeInviteCode() {
-            axios.post('/graphql?query=mutation+groups{ changeGroupCode(id: ' + this.id + ', code: "' + this.inviteCode + '"){id, invite_code}}').then(function (response) {
-                var result = response.data;
-
-                if (result.errors) {
-                    //display toast
-                    return;
-                }
-
-                // display successful toast
-            });
-        }
-    },
-
     mounted: function mounted() {
-        var _this2 = this;
+        var _this = this;
 
         var id = this.groupId;
 
         axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, public, invite_code, members{id, username, avatar}}}').then(function (response) {
             var result = response.data;
 
-            _this2.$store.dispatch('setGroup', result.data.groups[0]);
+            _this.$store.dispatch('setGroup', result.data.groups[0]);
         });
     },
 
     components: {
-        'group-members': GroupMembers,
-        'group-options': GroupOptions
+        'group-members': GroupMembers
     }
 });
 
@@ -34217,12 +34171,59 @@ if (false) {
 /* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "group-view columns is-padded-top" }, [
+    _c("div", { staticClass: "column is-three-quarters" }, [
+      _c("div", { staticClass: "group-info feed-section" }, [
+        _c("div", { staticClass: "group-settings-btn is-pulled-right" }, [
+          _c("a", { attrs: { href: "/groups/" + _vm.groupId + "/options" } }, [
+            _c("i", { staticClass: "fa fa-cog" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("h1", { staticClass: "title is-2" }, [_vm._v(_vm._s(_vm.name))]),
+        _vm._v(" "),
+        _c("p", [_vm._v(_vm._s(_vm.description))])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "column is-one-quarter" }, [
+      _c(
+        "div",
+        { staticClass: "group-members" },
+        [
+          _c("h2", { staticClass: "title is-6" }, [_vm._v("Members")]),
+          _vm._v(" "),
+          _c("group-members", { attrs: { members: _vm.members } })
+        ],
+        1
+      )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-5f98d2d0", module.exports)
+  }
+}
+
+/***/ }),
+/* 107 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(107)
+var __vue_script__ = __webpack_require__(108)
 /* template */
-var __vue_template__ = __webpack_require__(108)
+var __vue_template__ = __webpack_require__(109)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -34262,11 +34263,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(2);
+
 //
 //
 //
@@ -34281,64 +34286,99 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var axios = __webpack_require__(3);
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['privacy', 'updatePrivacy', 'inviteCode', 'updateInviteCode', 'changeInviteCode']
+    props: ['groupId'],
 
-});
+    computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapState"])({
+        id: function id(state) {
+            return state.group.id;
+        },
+        name: function name(state) {
+            return state.group.name;
+        },
+        description: function description(state) {
+            return state.group.description;
+        },
+        privacy: function privacy(state) {
+            return state.group.privacy;
+        },
+        inviteCode: function inviteCode(state) {
+            return state.group.mainInviteCode;
+        }
+    })),
 
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
+    methods: {
+        updatePrivacy: function updatePrivacy(e) {
+            var _this = this;
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "group-options-all" }, [
-    _c("div", { staticClass: "control" }, [
-      _c("label", { staticClass: "checkbox" }, [
-        _c("input", {
-          attrs: { type: "checkbox", name: "privacy" },
-          domProps: { checked: _vm.privacy === 0 },
-          on: { change: _vm.updatePrivacy }
-        }),
-        _vm._v("\n            Invite-Only\n        ")
-      ])
-    ]),
-    _vm._v(" "),
-    _vm.privacy === 0
-      ? _c("div", { staticClass: "field" }, [
-          _c("input", {
-            staticClass: "input",
-            attrs: { type: "text", placeholder: "Enter invite code..." },
-            domProps: { value: _vm.inviteCode },
-            on: {
-              input: _vm.updateInviteCode,
-              keyup: function($event) {
-                if (
-                  !("button" in $event) &&
-                  _vm._k($event.keyCode, "enter", 13, $event.key)
-                ) {
-                  return null
+            var privacy = !this.privacy;
+
+            axios.post('/graphql?query=mutation+groups{groupPrivacy(id: ' + this.id + ', privacy: ' + (privacy ? 1 : 0) + '){id, public}}').then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    // display toast
+                    return;
                 }
-                _vm.changeInviteCode($event)
-              }
-            }
-          })
-        ])
-      : _vm._e()
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4706e6b7", module.exports)
-  }
-}
+
+                _this.$store.commit('setGroupPrivacy', result.data.groupPrivacy.public);
+            });
+        },
+
+        updateInviteCode: function updateInviteCode(e) {
+            this.$store.commit('setGroupInviteCode', e.target.value);
+        },
+
+        changeInviteCode: function changeInviteCode() {
+            axios.post('/graphql?query=mutation+groups{ changeGroupCode(id: ' + this.id + ', code: "' + this.inviteCode + '"){id, invite_code}}').then(function (response) {
+                var result = response.data;
+
+                if (result.errors) {
+                    //display toast
+                    return;
+                }
+
+                // display successful toast
+            });
+        }
+    },
+
+    mounted: function mounted() {
+        var _this2 = this;
+
+        var id = this.groupId;
+
+        axios.get('/graphql?query=query+groupAndMembers{ groups(id: ' + parseInt(id) + '){id, name, description, public, invite_code, members{id, username, avatar}}}').then(function (response) {
+            var result = response.data;
+
+            _this2.$store.dispatch('setGroup', result.data.groups[0]);
+        });
+    }
+});
 
 /***/ }),
 /* 109 */
@@ -34348,57 +34388,91 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "group-view columns is-padded-top" }, [
-    _c("div", { staticClass: "column is-three-quarters" }, [
-      _c("div", { staticClass: "group-info feed-section" }, [
-        _c("h1", { staticClass: "title is-2" }, [_vm._v(_vm._s(_vm.name))]),
-        _vm._v(" "),
-        _c("p", [_vm._v(_vm._s(_vm.description))])
-      ])
+  return _c("div", { staticClass: "group-options-all feed-section" }, [
+    _vm._m(0, false, false),
+    _vm._v(" "),
+    _c("div", { staticClass: "feed-content" }, [
+      _c("p", [_vm._v(_vm._s(_vm.name))])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "column is-one-quarter" }, [
-      _vm.auth
-        ? _c(
-            "div",
-            { staticClass: "group-options" },
-            [
-              _c("h2", { staticClass: "title is-6" }, [_vm._v("Options")]),
-              _vm._v(" "),
-              _c("group-options", {
-                attrs: {
-                  privacy: _vm.privacy,
-                  "update-privacy": _vm.updatePrivacy,
-                  "invite-code": _vm.inviteCode,
-                  "update-invite-code": _vm.updateInviteCode,
-                  "change-invite-code": _vm.changeInviteCode
+    _vm._m(1, false, false),
+    _vm._v(" "),
+    _c("div", { staticClass: "feed-content" }, [
+      _c("p", [_vm._v(_vm._s(_vm.description))])
+    ]),
+    _vm._v(" "),
+    _vm._m(2, false, false),
+    _vm._v(" "),
+    _c("div", { staticClass: "feed-content" }, [
+      _c("div", { staticClass: "field is-grouped" }, [
+        _c("div", { staticClass: "control" }, [
+          _c("label", { staticClass: "checkbox" }, [
+            _c("input", {
+              attrs: { type: "checkbox", name: "privacy" },
+              domProps: { checked: _vm.privacy === 0 },
+              on: { change: _vm.updatePrivacy }
+            }),
+            _vm._v("\n                    Invite-only\n                ")
+          ])
+        ]),
+        _vm._v(" "),
+        _vm.privacy === 0
+          ? _c("div", { staticClass: "control is-expanded" }, [
+              _c("input", {
+                staticClass: "input",
+                attrs: { type: "text", placeholder: "Enter invite code..." },
+                domProps: { value: _vm.inviteCode },
+                on: {
+                  input: _vm.updateInviteCode,
+                  keyup: function($event) {
+                    if (
+                      !("button" in $event) &&
+                      _vm._k($event.keyCode, "enter", 13, $event.key)
+                    ) {
+                      return null
+                    }
+                    _vm.changeInviteCode($event)
+                  }
                 }
               })
-            ],
-            1
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "group-members" },
-        [
-          _c("h2", { staticClass: "title is-6" }, [_vm._v("Members")]),
-          _vm._v(" "),
-          _c("group-members", { attrs: { members: _vm.members } })
-        ],
-        1
-      )
+            ])
+          : _vm._e()
+      ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "feed-header" }, [
+      _c("span", [_vm._v("Name")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "feed-header" }, [
+      _c("span", [_vm._v("Description")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "feed-header" }, [
+      _c("span", [_vm._v("Privacy")])
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-5f98d2d0", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-4706e6b7", module.exports)
   }
 }
 

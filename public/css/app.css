@@ -11464,10 +11464,28 @@ body {
 .feed-section {
   margin-top: 1rem;
   padding: 1rem;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   background-color: white;
   -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
           box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
   overflow: hidden;
+}
+
+.feed-section .feed-header {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.feed-section .feed-content {
+  font-size: 0.8rem;
+  padding-bottom: 0.5rem;
+}
+
+.feed-section .feed-content .control {
+  font-size: 0.8rem;
 }
 
 .is-padded-top {
