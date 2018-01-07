@@ -2,7 +2,7 @@
     <div class="group-view columns is-padded-top">
         <div class="column is-three-quarters">
             <div class="group-info feed-section">
-                <div class="group-settings-btn is-pulled-right">
+                <div class="group-settings-btn is-pulled-right" v-if="auth">
                     <a :href="'/groups/' + groupId + '/options'"><i class="fa fa-cog"></i></a>
                 </div>
                 <h1 class="title is-2">{{ name }}</h1>

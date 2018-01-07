@@ -34178,11 +34178,15 @@ var render = function() {
   return _c("div", { staticClass: "group-view columns is-padded-top" }, [
     _c("div", { staticClass: "column is-three-quarters" }, [
       _c("div", { staticClass: "group-info feed-section" }, [
-        _c("div", { staticClass: "group-settings-btn is-pulled-right" }, [
-          _c("a", { attrs: { href: "/groups/" + _vm.groupId + "/options" } }, [
-            _c("i", { staticClass: "fa fa-cog" })
-          ])
-        ]),
+        _vm.auth
+          ? _c("div", { staticClass: "group-settings-btn is-pulled-right" }, [
+              _c(
+                "a",
+                { attrs: { href: "/groups/" + _vm.groupId + "/options" } },
+                [_c("i", { staticClass: "fa fa-cog" })]
+              )
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("h1", { staticClass: "title is-2" }, [_vm._v(_vm._s(_vm.name))]),
         _vm._v(" "),
