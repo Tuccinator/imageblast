@@ -29994,7 +29994,7 @@ module.exports = function (str, locale) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(26);
-module.exports = __webpack_require__(115);
+module.exports = __webpack_require__(116);
 
 
 /***/ }),
@@ -34309,6 +34309,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var axios = __webpack_require__(3);
 
@@ -34332,6 +34352,18 @@ var axios = __webpack_require__(3);
         },
         inviteCode: function inviteCode(state) {
             return state.group.mainInviteCode;
+        },
+        memberName: function memberName(state) {
+            return state.search.query;
+        },
+        members: function members(state) {
+            if (state.search.query.length > 0) {
+                return state.group.members.filter(function (member) {
+                    return member.username.includes(state.search.query);
+                });
+            }
+
+            return state.group.members;
         }
     })),
 
@@ -34368,6 +34400,10 @@ var axios = __webpack_require__(3);
 
                 // display successful toast
             });
+        },
+
+        updateMemberName: function updateMemberName(e) {
+            this.$store.commit('setSearchQuery', e.target.value);
         }
     },
 
@@ -34442,6 +34478,39 @@ var render = function() {
             ])
           : _vm._e()
       ])
+    ]),
+    _vm._v(" "),
+    _vm._m(3, false, false),
+    _vm._v(" "),
+    _c("div", { staticClass: "feed-content" }, [
+      _c("div", { staticClass: "field" }, [
+        _c("div", { staticClass: "control" }, [
+          _c("input", {
+            staticClass: "input",
+            attrs: { type: "text", placeholder: "Search for member..." },
+            domProps: { value: _vm.memberName },
+            on: { input: _vm.updateMemberName }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "members" },
+        _vm._l(_vm.members, function(member) {
+          return _c("div", { staticClass: "member-row" }, [
+            _c("div", { staticClass: "member-row-avatar" }, [
+              _c("img", { attrs: { src: "/" + member.avatar } })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "member-row-username" }, [
+              _c("a", { attrs: { href: "#" } }, [
+                _vm._v(_vm._s(member.username))
+              ])
+            ])
+          ])
+        })
+      )
     ])
   ])
 }
@@ -34469,6 +34538,14 @@ var staticRenderFns = [
     return _c("div", { staticClass: "feed-header" }, [
       _c("span", [_vm._v("Privacy")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "feed-header" }, [
+      _c("span", [_vm._v("Members")])
+    ])
   }
 ]
 render._withStripped = true
@@ -34490,6 +34567,7 @@ var user = __webpack_require__(111);
 var upload = __webpack_require__(112);
 var feed = __webpack_require__(113);
 var group = __webpack_require__(114);
+var search = __webpack_require__(115);
 
 Vue.use(Vuex);
 
@@ -34498,7 +34576,8 @@ var store = new Vuex.Store({
         user: user,
         upload: upload,
         feed: feed,
-        group: group
+        group: group,
+        search: search
     }
 });
 
@@ -34706,6 +34785,24 @@ module.exports = group;
 
 /***/ }),
 /* 115 */
+/***/ (function(module, exports) {
+
+var search = {
+    state: {
+        query: ''
+    },
+
+    mutations: {
+        setSearchQuery: function setSearchQuery(state, query) {
+            state.query = query;
+        }
+    }
+};
+
+module.exports = search;
+
+/***/ }),
+/* 116 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

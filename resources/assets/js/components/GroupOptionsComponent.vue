@@ -28,6 +28,26 @@
                 </div>
             </div>
         </div>
+        <div class="feed-header">
+            <span>Members</span>
+        </div>
+        <div class="feed-content">
+            <div class="field">
+                <div class="control">
+                    <input type="text" class="input" :value="memberName" @input="updateMemberName" placeholder="Search for member..." />
+                </div>
+            </div>
+            <div class="members">
+                <div class="member-row" v-for="member in members">
+                    <div class="member-row-avatar">
+                        <img :src="'/' + member.avatar" />
+                    </div>
+                    <div class="member-row-username">
+                        <a href="#">{{ member.username }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -45,7 +65,17 @@ export default {
             name: state => state.group.name,
             description: state => state.group.description,
             privacy: state => state.group.privacy,
-            inviteCode: state => state.group.mainInviteCode
+            inviteCode: state => state.group.mainInviteCode,
+            memberName: state => state.search.query,
+            members: state => {
+                if(state.search.query.length > 0) {
+                    return state.group.members.filter(member => {
+                        return member.username.includes(state.search.query);
+                    });
+                }
+
+                return state.group.members;
+            },
         })
     },
 
@@ -82,6 +112,10 @@ export default {
 
                     // display successful toast
                 })
+        },
+
+        updateMemberName: function(e) {
+            this.$store.commit('setSearchQuery', e.target.value);
         }
     },
 

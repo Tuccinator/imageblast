@@ -11580,3 +11580,20 @@ body {
           justify-content: flex-end !important;
 }
 
+.members .member-row .member-row-avatar {
+  display: inline-block;
+  height: 36px;
+}
+
+.members .member-row .member-row-avatar img {
+  height: 100%;
+  border-radius: 50%;
+}
+
+.members .member-row .member-row-username {
+  display: inline-block;
+  padding-left: 0.5rem;
+  line-height: 40px;
+  vertical-align: top;
+}
+

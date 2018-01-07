@@ -4,6 +4,7 @@ const user = require('./modules/user');
 const upload = require('./modules/upload');
 const feed = require('./modules/feed');
 const group = require('./modules/group');
+const search = require('./modules/search');
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ const store = new Vuex.Store({
         user,
         upload,
         feed,
-        group
+        group,
+        search
     }
 });
 

@@ -128,3 +128,24 @@ html, body {
 .modal-card-foot {
     justify-content: flex-end !important;
 }
+
+.members {
+    .member-row {
+        .member-row-avatar {
+            display: inline-block;
+            height: 36px;
+
+            img {
+                height: 100%;
+                border-radius: 50%;
+            }
+        }
+
+        .member-row-username {
+            display: inline-block;
+            padding-left: 0.5rem;
+            line-height: 40px;
+            vertical-align: top;
+        }
+    }
+}
