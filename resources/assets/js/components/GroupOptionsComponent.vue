@@ -38,14 +38,21 @@
                 </div>
             </div>
             <div class="members">
-                <div class="member-row" v-for="member in members">
+                <div class="member-row" v-for="(member, index) in members" :key="member.id">
                     <div class="member-row-avatar">
                         <img :src="'/' + member.avatar" />
                     </div>
                     <div class="member-row-username">
-                        <a href="#">{{ member.username }}</a>
+                        <a href="#" @click="openUserModal(index)">{{ member.username }}</a>
                     </div>
                 </div>
+            </div>
+            <div class="modal" :class="{ 'is-active': this.modalOpen }">
+                <div class="modal-background" @click="closeUserModal()"></div>
+                <div class="modal-content">
+                    <h3 class="title is-5">{{ modal.username }}</h3>
+                </div>
+                <button class="modal-close is-large" aria-label="close" @click="closeUserModal()"></button>
             </div>
         </div>
     </div>
@@ -58,6 +65,13 @@ import { mapState } from 'vuex';
 
 export default {
     props: ['groupId'],
+
+    data: function() {
+        return {
+            modalOpen: false,
+            modal: {}
+        };
+    },
 
     computed: {
         ...mapState({
@@ -116,6 +130,15 @@ export default {
 
         updateMemberName: function(e) {
             this.$store.commit('setSearchQuery', e.target.value);
+        },
+
+        openUserModal: function(index) {
+            this.modal = this.members[index];
+            this.modalOpen = true;
+        },
+
+        closeUserModal: function() {
+            this.modalOpen = false;
         }
     },
 

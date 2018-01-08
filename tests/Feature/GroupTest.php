@@ -213,4 +213,47 @@ class GroupTest extends TestCase
 
         $this->assertEquals($group->id, $result['data']['joinGroup']['id']);
     }
+
+    public function testUserPromotingMemberIsAdmin()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 1]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+        $secondGroupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $secondUser = self::$secondUser;
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ updateGroupUser(id: {$group->id}, user_id: {$secondUser->id}, role: 2){id, role}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey(null, $result['data']['updateGroupUser']);
+    }
+
+    public function testAdminMustProvideValidMemberOfGroupToPromote()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 1]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $secondUser = self::$secondUser;
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ updateGroupUser(id: {$group->id}, user_id: {$secondUser->id}, role: 2){id, role}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('user_id', $result['error'][0]['validation']);
+    }
+
+    public function testAdminMustProvideValidRoleForMemberToPromote()
+    {
+        $group = factory(\App\Group::class)->create(['creator_id' => self::$user->id, 'public' => 1]);
+        $groupUser = factory(\App\GroupUser::class)->create(['group_id' => $group->id, 'user_id' => self::$user->id, 'role' => 2]);
+
+        $secondUser = self::$secondUser;
+
+        $response = $this->actingAs(self::$user)->json('POST', "/graphql?query=mutation+groups{ updateGroupUser(id: {$group->id}, user_id: {$secondUser->id}, role: 10){id, role}}");
+
+        $result = $response->json();
+
+        $this->assertArrayHasKey('role', $result['error'][0]['validation']);
+    }
 }

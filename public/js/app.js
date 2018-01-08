@@ -34329,6 +34329,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 var axios = __webpack_require__(3);
 
@@ -34336,6 +34343,13 @@ var axios = __webpack_require__(3);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['groupId'],
+
+    data: function data() {
+        return {
+            modalOpen: false,
+            modal: {}
+        };
+    },
 
     computed: __WEBPACK_IMPORTED_MODULE_0_babel_runtime_helpers_extends___default()({}, Object(__WEBPACK_IMPORTED_MODULE_1_vuex__["mapState"])({
         id: function id(state) {
@@ -34404,6 +34418,15 @@ var axios = __webpack_require__(3);
 
         updateMemberName: function updateMemberName(e) {
             this.$store.commit('setSearchQuery', e.target.value);
+        },
+
+        openUserModal: function openUserModal(index) {
+            this.modal = this.members[index];
+            this.modalOpen = true;
+        },
+
+        closeUserModal: function closeUserModal() {
+            this.modalOpen = false;
         }
     },
 
@@ -34497,19 +34520,59 @@ var render = function() {
       _c(
         "div",
         { staticClass: "members" },
-        _vm._l(_vm.members, function(member) {
-          return _c("div", { staticClass: "member-row" }, [
+        _vm._l(_vm.members, function(member, index) {
+          return _c("div", { key: member.id, staticClass: "member-row" }, [
             _c("div", { staticClass: "member-row-avatar" }, [
               _c("img", { attrs: { src: "/" + member.avatar } })
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "member-row-username" }, [
-              _c("a", { attrs: { href: "#" } }, [
-                _vm._v(_vm._s(member.username))
-              ])
+              _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.openUserModal(index)
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(member.username))]
+              )
             ])
           ])
         })
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "modal", class: { "is-active": this.modalOpen } },
+        [
+          _c("div", {
+            staticClass: "modal-background",
+            on: {
+              click: function($event) {
+                _vm.closeUserModal()
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "modal-content" }, [
+            _c("h3", { staticClass: "title is-5" }, [
+              _vm._v(_vm._s(_vm.modal.username))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("button", {
+            staticClass: "modal-close is-large",
+            attrs: { "aria-label": "close" },
+            on: {
+              click: function($event) {
+                _vm.closeUserModal()
+              }
+            }
+          })
+        ]
       )
     ])
   ])

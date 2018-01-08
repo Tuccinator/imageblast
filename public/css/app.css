@@ -11580,6 +11580,12 @@ body {
           justify-content: flex-end !important;
 }
 
+.modal-content {
+  background-color: white;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
 .members .member-row .member-row-avatar {
   display: inline-block;
   height: 36px;
